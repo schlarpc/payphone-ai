@@ -34,7 +34,7 @@ tomli = "^2.0.1"
 payphone-ai = "payphone_ai._cli:main"
 
 [tool.nixpkgs]
-dependencies = [ ]
+dependencies = [ "rnnoise" ]
 dev-dependencies = [ ]
 
 [tool.black]

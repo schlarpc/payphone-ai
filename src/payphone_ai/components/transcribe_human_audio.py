@@ -2,6 +2,8 @@ import audioop
 import contextlib
 import ctypes
 import functools
+import pathlib
+import shutil
 
 import amazon_transcribe.auth
 import amazon_transcribe.client
@@ -26,9 +28,11 @@ class Boto3CredentialResolver(amazon_transcribe.auth.CredentialResolver):
 
 @functools.cache
 def load_rnnoise_lib():
-    lib = ctypes.cdll.LoadLibrary(
-        "/nix/store/phg1m5bf4n49msvnrngz35jg6ab1p5xs-rnnoise-2021-01-22/lib/librnnoise.so"
-    )
+    bin_path = shutil.which("rnnoise_demo")
+    if not bin_path:
+        raise Exception("rnnoise not found")
+    lib_path = pathlib.Path(bin_path).parent.parent / "lib" / "librnnoise.so"
+    lib = ctypes.cdll.LoadLibrary(str(lib_path.resolve()))
     lib.rnnoise_process_frame.argtypes = [
         ctypes.c_void_p,
         ctypes.POINTER(ctypes.c_float),
