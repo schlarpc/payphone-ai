@@ -21,7 +21,21 @@
       let
         projectConfig = {
           python = pkgs.python310;
-          dependencyOverrides = (final: prev: { });
+          dependencyOverrides = (final: prev: {
+            awscrt = prev.awscrt.overridePythonAttrs (old: {
+              nativeBuildInputs = [ pkgs.cmake ] ++ old.nativeBuildInputs;
+              dontUseCmakeConfigure = true;
+            });
+            pandas-stubs = prev.pandas-stubs.overridePythonAttrs (old: {
+              postInstall = ''
+                find $out -type f -printf "%P\0" | while IFS= read -r -d "" f; do
+                  if [[ -f "${prev.pandas}/$f" ]]; then
+                    rm "$out/$f"
+                  fi
+                done
+              '';
+            });
+          });
         };
         pyProject = builtins.fromTOML (builtins.readFile (./. + "/pyproject.toml"));
         pkgs = import nixpkgs {
