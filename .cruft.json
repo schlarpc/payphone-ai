@@ -1,0 +1,16 @@
+{
+  "template": "https://github.com/schlarpc/python-base-flake.git",
+  "commit": "326bdec8992c10c95635f34396cd373e782a5ed7",
+  "checkout": "template",
+  "context": {
+    "cookiecutter": {
+      "project_name": "payphone-ai",
+      "module_name": "payphone_ai",
+      "author_name": "Chaz Schlarp",
+      "author_email": "schlarpc@gmail.com",
+      "_template": "https://github.com/schlarpc/python-base-flake.git",
+      "_output_dir": "/home/schlarpc"
+    }
+  },
+  "directory": null
+}

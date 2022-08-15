@@ -73,7 +73,11 @@
               ${
                 pkgs.lib.concatMapStringsSep
                 "\n"
-                (pkg: ''mkdir "${pkg}.egg-info"; ln -s "${pkgInfoFile}" "${pkg}.egg-info/PKG-INFO"'')
+                (pkg: (
+                    if (pkg != pyProject.tool.poetry.name)
+                    then ''mkdir "${pkg}.egg-info"; ln -s "${pkgInfoFile}" "${pkg}.egg-info/PKG-INFO"''
+                    else ""
+                ))
                 moduleNames
               }
             ''));
@@ -101,7 +105,7 @@
         devShells.default = (
           (pkgs.poetry2nix.mkPoetryEnv (mkPoetryArgs // mkPoetryEnvEditableArgs)).env.overrideAttrs (
             oldAttrs: {
-              buildInputs = [ pkgs.poetry pkgs.poetry2nix.cli ] ++ pyProjectNixpkgsDevDeps;
+              buildInputs = [ pkgs.act projectConfig.python.pkgs.poetry pkgs.poetry2nix.cli ] ++ pyProjectNixpkgsDevDeps;
               shellHook = ''
                 ${checks.pre-commit-hooks.shellHook}
               '';
@@ -128,7 +132,8 @@
               nixpkgs-fmt.enable = true;
               prettier = {
                 enable = true;
-                types_or = [ "markdown" "json" ];
+                types_or = [ "markdown" "json" "yaml" ];
+                excludes = [ "^\\.template/.+/\\.cruft\\.json$" ];
               };
               isort = {
                 enable = true;

@@ -7,5 +7,3 @@
 __pycache__/
 .coverage
 /docs/generated/
-/.env
-
