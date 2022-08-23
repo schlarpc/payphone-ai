@@ -19,7 +19,7 @@ amazon-transcribe = "^0.6.0"
 trio-typing = "^0.7.0"
 jmespath = "^1.0.1"
 httpx = "^0.23.0"
-deepgram-sdk = "^0.3.0"
+deepgram-sdk = "^0.4.0"
 
 [tool.poetry.dev-dependencies]
 black = "^22.6.0"
