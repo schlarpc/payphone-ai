@@ -26,7 +26,7 @@ flit-scm = "^1.7.0"  # needed for exceptiongroup, not locked because it's a buil
 [tool.poetry.dev-dependencies]
 black = "^22.8.0"
 isort = "^5.10.1"
-mypy = "^0.971"
+mypy = "^0.981"
 myst-parser = "^0.18.1"
 poetryup = "^0.12.0"
 pytest = "^7.1.3"

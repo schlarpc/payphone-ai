@@ -39,6 +39,9 @@
             exceptiongroup = prev.exceptiongroup.overridePythonAttrs (old: {
               nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ final.flit-scm ];
             });
+            mypy = prev.mypy.overridePythonAttrs (old: {
+              nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ final.types-setuptools ];
+            });
           });
         };
         pyProject = builtins.fromTOML (builtins.readFile (./. + "/pyproject.toml"));
