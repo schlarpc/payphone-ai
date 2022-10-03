@@ -31,10 +31,13 @@
               '';
             });
             poetryup = prev.poetryup.overridePythonAttrs (old: {
-              buildInputs = (old.buildInputs or [ ]) ++ [ final.poetry-core ];
+              nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ final.poetry-core ];
             });
             sphinx = prev.sphinx.overridePythonAttrs (old: {
               nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ final.flit-core ];
+            });
+            exceptiongroup = prev.exceptiongroup.overridePythonAttrs (old: {
+              nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ final.flit-scm ];
             });
           });
         };
