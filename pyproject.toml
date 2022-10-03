@@ -31,7 +31,7 @@ pytest-cov = "^3.0.0"
 Sphinx = "^5.1.1"
 sphinx-autoapi = "^1.8.4"
 tomli = "^2.0.1"
-cruft = {extras = ["pyproject"], version = "^2.10.2"}
+cruft = {extras = ["pyproject"], version = "^2.11.1"}
 
 [tool.poetry.scripts]
 payphone-ai = "payphone_ai._cli:main"
