@@ -30,6 +30,12 @@
                 echo "pandas_stubs" > "$SITEPKGS/pandas_stubs.pth"
               '';
             });
+            poetryup = prev.poetryup.overridePythonAttrs (old: {
+              buildInputs = (old.buildInputs or [ ]) ++ [ final.poetry-core ];
+            });
+            sphinx = prev.sphinx.overridePythonAttrs (old: {
+              nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ final.flit-core ];
+            });
           });
         };
         pyProject = builtins.fromTOML (builtins.readFile (./. + "/pyproject.toml"));
