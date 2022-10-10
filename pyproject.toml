@@ -24,7 +24,7 @@ pandas = "=1.4.3"  # cython 0.29.32 is gated by a version of nixpkgs that breaks
 flit-scm = "^1.7.0"  # needed for exceptiongroup, not locked because it's a build-backend
 
 [tool.poetry.dev-dependencies]
-black = "^22.8.0"
+black = "^22.10.0"
 isort = "^5.10.1"
 mypy = "^0.982"
 myst-parser = "^0.18.1"
