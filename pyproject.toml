@@ -19,7 +19,7 @@ amazon-transcribe = "^0.6.0"
 trio-typing = "^0.7.0"
 jmespath = "^1.0.1"
 httpx = "^0.23.0"
-deepgram-sdk = "^0.6.1"
+deepgram-sdk = "^2.2.0"
 pandas = "=1.4.3"  # cython 0.29.32 is gated by a version of nixpkgs that breaks _everything_
 flit-scm = "^1.7.0"  # needed for exceptiongroup, not locked because it's a build-backend
 
