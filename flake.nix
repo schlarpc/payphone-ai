@@ -22,25 +22,36 @@
         projectConfig = {
           python = pkgs.python310;
           dependencyOverrides = (final: prev: {
-            pandas-stubs = prev.pandas-stubs.overridePythonAttrs (old: {
-              postInstall = ''
-                SITEPKGS="$out/${prev.python.sitePackages}"
-                mkdir "$SITEPKGS/pandas_stubs"
-                mv "$SITEPKGS/pandas" "$SITEPKGS/pandas_stubs"
-                echo "pandas_stubs" > "$SITEPKGS/pandas_stubs.pth"
-              '';
-            });
             poetryup = prev.poetryup.overridePythonAttrs (old: {
               nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ final.poetry-core ];
+            });
+            langchain = prev.langchain.overridePythonAttrs (old: {
+              nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ final.poetry-core ];
+              buildInputs = (old.buildInputs or [ ]) ++ [ final.greenlet ];
+            });
+            vocode = prev.vocode.overridePythonAttrs (old: {
+              nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ final.poetry-core ];
+              buildInputs = (old.buildInputs or [ ]) ++ [ final.greenlet ];
             });
             sphinx = prev.sphinx.overridePythonAttrs (old: {
               nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ final.flit-core ];
             });
-            exceptiongroup = prev.exceptiongroup.overridePythonAttrs (old: {
-              nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ final.flit-scm ];
+            sphinx-autoapi = prev.sphinx-autoapi.overridePythonAttrs (old: {
+              nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ final.setuptools ];
             });
             mypy = prev.mypy.overridePythonAttrs (old: {
               nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ final.types-setuptools ];
+            });
+            azure-cognitiveservices-speech = prev.azure-cognitiveservices-speech.overridePythonAttrs (old: {
+              buildInputs = (old.buildInputs or [ ]) ++ (with pkgs; [ gst_all_1.gstreamer.dev alsa-lib ]);
+              distPhase =  ''
+                find $out -iname '*.so' -print0  | xargs -0 -L1 patchelf --add-rpath '$ORIGIN:${pkgs.openssl_1_1.out}/lib'
+              '';
+              doDist = true;
+            });
+            sqlalchemy = prev.sqlalchemy.overridePythonAttrs (old: {
+              nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ final.greenlet ];
+              buildInputs = (old.buildInputs or [ ]) ++ [ final.greenlet ];
             });
           });
         };
@@ -117,7 +128,7 @@
         devShells.default = (
           (pkgs.poetry2nix.mkPoetryEnv (mkPoetryArgs // mkPoetryEnvEditableArgs)).env.overrideAttrs (
             oldAttrs: {
-              buildInputs = [ pkgs.act projectConfig.python.pkgs.poetry pkgs.poetry2nix.cli ] ++ pyProjectNixpkgsDevDeps;
+              buildInputs = [ pkgs.act pkgs.poetry pkgs.poetry2nix.cli ] ++ pyProjectNixpkgsDevDeps;
               shellHook = ''
                 ${checks.pre-commit-hooks.shellHook}
               '';
@@ -154,7 +165,7 @@
               mypy = {
                 enable = true;
                 name = "mypy";
-                entry = poetryPreCommit "mypy" ''mypy "$@"'';
+                entry = pkgs.lib.mkForce (poetryPreCommit "mypy" ''mypy "$@"'');
                 pass_filenames = false;
               };
               pytest = {

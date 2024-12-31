@@ -6,35 +6,25 @@ authors = [ "Chaz Schlarp <schlarpc@gmail.com>" ]
 
 [tool.poetry.dependencies]
 # not automatically used by poetry2nix - https://github.com/nix-community/poetry2nix/issues/570
-python = "^3.9"
-aiobotocore = "=2.4.0"
-boto3 = "=1.24.59"
-nltk = "^3.7"
-numpy = "^1.23.3"
-openai = "^0.23.1"
+python = "^3.10"
 trio = "^0.22.0"
 trio-asyncio = "^0.12.0"
-trio-websocket = "^0.9.2"
-amazon-transcribe = "^0.6.0"
-trio-typing = "^0.7.0"
-jmespath = "^1.0.1"
-httpx = "^0.23.0"
-deepgram-sdk = "^0.6.1"
-pandas = "=1.4.3"  # cython 0.29.32 is gated by a version of nixpkgs that breaks _everything_
-flit-scm = "^1.7.0"  # needed for exceptiongroup, not locked because it's a build-backend
+vocode = "^0.1.75"
+pydub = "^0.25.1"
+greenlet = "^2.0.2"
+sounddevice = "^0.4.6"
 
-[tool.poetry.dev-dependencies]
-black = "^22.8.0"
-isort = "^5.10.1"
-mypy = "^0.982"
-myst-parser = "^0.18.1"
-poetryup = "^0.12.0"
-pytest = "^7.1.3"
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+isort = "^5.12.0"
+mypy = "^1.1.1"
+myst-parser = "^1.0.0"
+pytest = "^7.2.2"
 pytest-cov = "^4.0.0"
-Sphinx = "^5.2.3"
-sphinx-autoapi = "^2.0.0"
+Sphinx = "^6.1.3"
+sphinx-autoapi = "^2.1.0"
 tomli = "^2.0.1"
-cruft = {extras = ["pyproject"], version = "^2.11.1"}
+cruft = {extras = ["pyproject"], version = "^2.12.0"}
 
 [tool.poetry.scripts]
 payphone-ai = "payphone_ai._cli:main"
